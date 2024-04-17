@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  vllm:
+    image: serve/vllm:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.vllm
+    command: --model $LLM_HF_REPO_ID $VLLM_ARGS
+    # environment:
+    #   - VLLM_API_KEY=${API_KEY}
+    volumes:
+      - ${MODELS_CACHE_DIR:-"."}:/root/.cache/huggingface
+    ipc: host
+    expose:
+      - 8000
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 60s
+      timeout: 5s
+      retries: 10
+
+  text-embeddings-inference:
+    image: serve/text-embeddings-inference:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.text_embeddings_inference
+    command: --model-id $EMBEDDINGS_HF_REPO_ID $TEXT_EMBEDDINGS_INFERENCE_ARGS
+    # environment:
+    #   - API_KEY=${API_KEY}
+    volumes:
+      - ${MODELS_CACHE_DIR:-"."}:/data
+    expose:
+      - 80
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80/health" ]
+      interval: 60s
+      timeout: 5s
+      retries: 10
+
+  nginx:
+    image: serve/nginx:1.25
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - ${API_PORT:-8080}:8080
+    depends_on:
+      vllm:
+        condition: service_healthy
+      text-embeddings-inference:
+        condition: service_healthy
