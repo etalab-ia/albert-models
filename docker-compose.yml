@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   vllm:
-    image: serve/vllm:latest
+    image: serve/vllm:v0.4.0.post1
     build:
       context: .
       dockerfile: Dockerfile.vllm
@@ -10,7 +10,7 @@ services:
     # environment:
     #   - VLLM_API_KEY=${API_KEY}
     volumes:
-      - ${MODELS_CACHE_DIR:-"."}:/root/.cache/huggingface
+      - ${MODELS_CACHE_DIR:-"."}/${LLM_HF_REPO_ID}:/root/.cache/huggingface
     ipc: host
     expose:
       - 8000
@@ -29,7 +29,7 @@ services:
       retries: 10
 
   text-embeddings-inference:
-    image: serve/text-embeddings-inference:latest
+    image: serve/text-embeddings-inference:1.2
     build:
       context: .
       dockerfile: Dockerfile.text_embeddings_inference
@@ -37,7 +37,7 @@ services:
     # environment:
     #   - API_KEY=${API_KEY}
     volumes:
-      - ${MODELS_CACHE_DIR:-"."}:/data
+      - ${MODELS_CACHE_DIR:-"."}/${EMBEDDINGS_HF_REPO_ID}:/data
     expose:
       - 80
     restart: always
@@ -55,7 +55,7 @@ services:
       retries: 10
 
   nginx:
-    image: serve/nginx:1.25
+    image: serve/nginx:1.25.0
     build:
       context: .
       dockerfile: Dockerfile.nginx

@@ -8,14 +8,35 @@ However, VLLM does not currently support the generation of embeddings (endpoint:
 
 This repository makes it easy to add the `/v1/embeddings` endpoint by deploying an embedding model with [HuggingFace Text Embeddings Inference](https://github.com/huggingface/text-embeddings-inference) and serves it all on a single port.
 
-**API offer the following endpoints:**
+**API offer the following OpenAI endpoints:**
 - `/health`
 - `/v1/models`
 - `/v1/chat/completions`
 - `/v1/completions`
 - `/v1/embeddings`
 
-You can access the VLLM API endpoint swagger with the `/docs` endpoints. However, the endpoint provided by the embeddings model, `/v1/embeddings`, is not included in this swagger.
+You can access the other VLLM API endpoints:
+
+- `/health`
+- `/version`
+
+And the HuggingFace Text Embeddings Inference API endpoints :
+- `/decode`
+- `/embed`
+- `/embed_app`
+- `/embed_sparse`
+- `/embeddings`
+- `/info`
+- `/metrics`
+- `/predict`
+- `/rerank`
+- `/tokenize`
+- `/vertex`
+
+> ❓ The `/health` endpoint of embeddings model is not available, because it conflicts with the LLM API.
+
+You can access the VLLM API endpoint swagger with the `/docs` endpoints. However, the endpoint provided by the embeddings model, `/v1/embeddings`, is not included in this swagger. The Swagger UI is available at (official 
+documentation): https://huggingface.github.io/text-embeddings-inference/#/.
 
 ## Installation
 
