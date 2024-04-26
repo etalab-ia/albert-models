@@ -1,0 +1,3 @@
+FROM ghcr.io/huggingface/text-embeddings-inference:latest
+
+RUN apt-get update -y && apt-get install -y curl

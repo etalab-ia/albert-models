@@ -2,13 +2,14 @@ version: "3.8"
 
 services:
   vllm:
-    image: serve/vllm:v0.4.0.post1
+    image: serve/vllm
     build:
       context: .
       dockerfile: Dockerfile.vllm
     command: --model $LLM_HF_REPO_ID $VLLM_ARGS
-    # environment:
-    #   - VLLM_API_KEY=${API_KEY}
+    environment:
+      #- VLLM_API_KEY=${API_KEY}
+      - HF_TOKEN=${HF_TOKEN}
     volumes:
       - ${MODELS_CACHE_DIR:-"."}/${LLM_HF_REPO_ID}:/root/.cache/huggingface
     ipc: host
@@ -28,14 +29,15 @@ services:
       timeout: 5s
       retries: 10
 
-  text-embeddings-inference:
-    image: serve/text-embeddings-inference:1.2
+  tei:
+    image: serve/tei
     build:
       context: .
-      dockerfile: Dockerfile.text_embeddings_inference
-    command: --model-id $EMBEDDINGS_HF_REPO_ID $TEXT_EMBEDDINGS_INFERENCE_ARGS
-    # environment:
-    #   - API_KEY=${API_KEY}
+      dockerfile: Dockerfile.tei
+    command: --model-id $EMBEDDINGS_HF_REPO_ID $TEI_ARGS
+    environment:
+      #- API_KEY=${API_KEY}
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
     volumes:
       - ${MODELS_CACHE_DIR:-"."}/${EMBEDDINGS_HF_REPO_ID}:/data
     expose:
@@ -54,15 +56,37 @@ services:
       timeout: 5s
       retries: 10
 
+  fastapi:
+    image: serve/fastapi
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    expose:
+      - 8000
+    restart: always
+    depends_on:
+      vllm:
+        condition: service_healthy
+      tei:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
   nginx:
     image: serve/nginx:1.25.0
     build:
       context: .
       dockerfile: Dockerfile.nginx
     ports:
-      - ${API_PORT:-8080}:8080
+      - 8080:8080
     depends_on:
       vllm:
         condition: service_healthy
-      text-embeddings-inference:
+      tei:
+        condition: service_healthy
+      fastapi:
         condition: service_healthy

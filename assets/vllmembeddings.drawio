@@ -1,0 +1,67 @@
+<mxfile host="app.diagrams.net" modified="2024-06-04T09:02:02.003Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="GZU4Z7UKbayNKZMkDdje" version="24.4.13" type="device">
+  <diagram name="Page-1" id="AN4YA2UU6unwzrUZjFgV">
+    <mxGraphModel dx="867" dy="551" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="PZtLkHXbVacX9SctIBWn-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="PZtLkHXbVacX9SctIBWn-5" target="PZtLkHXbVacX9SctIBWn-7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="300" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="310" y="375" />
+              <mxPoint x="310" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="PZtLkHXbVacX9SctIBWn-5" target="PZtLkHXbVacX9SctIBWn-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" edge="1" parent="1" source="PZtLkHXbVacX9SctIBWn-5" target="PZtLkHXbVacX9SctIBWn-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="310" y="375" />
+              <mxPoint x="310" y="495" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-5" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Nginx&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="180" y="200" width="70" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1" source="PZtLkHXbVacX9SctIBWn-7" target="PZtLkHXbVacX9SctIBWn-8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="250" />
+              <mxPoint x="620" y="375" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="230.0000000000002" as="sourcePoint" />
+            <mxPoint x="560" y="497.46" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="560" y="250" />
+              <mxPoint x="620" y="250" />
+              <mxPoint x="620" y="498" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-7" value="&lt;b&gt;fastAPI&lt;/b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;&lt;font style=&quot;font-size: 12px; background-color: rgb(255, 153, 153);&quot;&gt;/v1/health&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;&lt;font style=&quot;font-size: 12px; background-color: rgb(255, 153, 153);&quot;&gt;/v1/models&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="380" y="200" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-8" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;vLLM&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 12px; background-color: rgb(255, 153, 153);&quot;&gt;/v1/completions&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 12px; background-color: rgb(255, 153, 153);&quot;&gt;/v1/chat/completions&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;/vllm/... all vLLM endpoint&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="380" y="320" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-10" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;TEI&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 12px; background-color: rgb(255, 153, 153);&quot;&gt;/v1/embeddings&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;/tei/... all TEI endpoint&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="380" y="440" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" edge="1" parent="1" source="PZtLkHXbVacX9SctIBWn-17" target="PZtLkHXbVacX9SctIBWn-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PZtLkHXbVacX9SctIBWn-17" value="" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="345" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
