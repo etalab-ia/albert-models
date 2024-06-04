@@ -1,22 +1,14 @@
 # VLLMEmbeddings
 
-<<<<<<< HEAD
-*News : Langchain compliant to feed a vector store 🦜 (see below)!*
-=======
 *🔥 News :* 
 - add HF_TOKEN variable for private model on HuggingFace
 - new architecture for more flexiblity !
->>>>>>> 266b3bf (doc: update documentation for langchain)
 
 **Deploy a full OpenAI API with VLLM.**
 
 [VLLM](https://github.com/vllm-project/vllm) is one of the state of the art libraries for deploying a Large Language Model (LLM) and its API with better generation performance. However, VLLM does not currently support the generation of embeddings (endpoint: /v1/embeddings), although it can be used to deploy an API for LLM according to OpenAI conventions (see this [discussion](https://github.com/vllm-project/vllm/discussions/310)).
 
-<<<<<<< HEAD
-However, VLLM does not currently support the generation of embeddings (endpoint: /v1/embeddings), although it can be used to deploy an API for LLM according to OpenAI conventions (see this [discussion](https://github.com/vllm-project/vllm/discussions/310)).
-=======
 This repository makes it easy to add the `/v1/embeddings` endpoint by deploying an embedding model with [HuggingFace Text Embeddings Inference (TEI)](https://github.com/huggingface/text-embeddings-inference) and serves it all on a single port. **The aim of this repository is to have a complete API that's very light, easy to use and maintain !**
->>>>>>> 266b3bf (doc: update documentation for langchain)
 
 ## How it works ?
 
@@ -69,7 +61,7 @@ documentation): https://huggingface.github.io/text-embeddings-inference/#/.
 | --- | --- |
 | EMBEDDINGS_HF_REPO_ID | HuggingFace repository ID of the embeddings model. Please refer to [HuggingFace Text Embeddings Inference](https://github.com/huggingface/text-embeddings-inference) documentation to find supported models. | 
 | LLM_HF_REPO_ID | HuggingFace repository ID of the LLM model. Please refer to [VLLM](https://github.com/vllm-project/vllm) documentation to find supported models. |
-| TEXT_EMBEDDINGS_INFERENCE_ARGS | Arguments for Text Embeddings Inference (format: --arg1 <value> --arg2 <value>). Please refer to [HuggingFace Text Embeddings Inference](https://github.com/huggingface/text-embeddings-inference) documentation for more information. |
+| TEI_ARGS | Arguments for Text Embeddings Inference (format: --arg1 <value> --arg2 <value>). Please refer to [HuggingFace Text Embeddings Inference](https://github.com/huggingface/text-embeddings-inference) documentation for more information. |
 | VLLM_ARGS | Arguments for VLLM (format: --arg1 <value> --arg2 <value>). Please refer to [VLLM](https://github.com/vllm-project/vllm) documentation for more information. |
 | HF_TOKEN | HuggingFace API token for private model on HuggingFace Hub. |
 | API_KEY | API key for protect your model. |
@@ -81,9 +73,6 @@ You can use the deployed API with Langchain to create embedding vectors for your
 ```python
 from langchain_community.embeddings import HuggingFaceHubEmbeddings
 
-<<<<<<< HEAD
-embeddings = HuggingFaceHubEmbeddings(model=f"http://localhost:8080")
-=======
 embeddings = HuggingFaceHubEmbeddings(model=f"http://localhost:8080/tei")
 ```
 
@@ -91,5 +80,4 @@ embeddings = HuggingFaceHubEmbeddings(model=f"http://localhost:8080/tei")
 
 ```bash
 python tests.py --llm-hf-repo-id TheBloke/OpenHermes-2.5-Mistral-7B-GPTQ --embeddings-hf-repo-id intfloat/e5-small --debug
->>>>>>> 266b3bf (doc: update documentation for langchain)
 ```
