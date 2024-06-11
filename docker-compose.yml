@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   vllm:
-    image: serve/vllm
+    image: vllme/vllm
     build:
       context: .
       dockerfile: Dockerfile.vllm
@@ -11,7 +11,7 @@ services:
       #- VLLM_API_KEY=${API_KEY}
       - HF_TOKEN=${HF_TOKEN}
     volumes:
-      - ${MODELS_CACHE_DIR:-"."}/${LLM_HF_REPO_ID}:/root/.cache/huggingface
+      - ${MODELS_CACHE_DIR:-"./models"}/${LLM_HF_REPO_ID}:/root/.cache/huggingface
     ipc: host
     expose:
       - 8000
@@ -30,7 +30,7 @@ services:
       retries: 10
 
   tei:
-    image: serve/tei
+    image: vllme/tei
     build:
       context: .
       dockerfile: Dockerfile.tei
@@ -39,7 +39,7 @@ services:
       #- API_KEY=${API_KEY}
       - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
     volumes:
-      - ${MODELS_CACHE_DIR:-"."}/${EMBEDDINGS_HF_REPO_ID}:/data
+      - ${MODELS_CACHE_DIR:-"./models"}/${EMBEDDINGS_HF_REPO_ID}:/data
     expose:
       - 80
     restart: always
@@ -57,7 +57,7 @@ services:
       retries: 10
 
   fastapi:
-    image: serve/fastapi
+    image: vllme/fastapi
     build:
       context: .
       dockerfile: Dockerfile.fastapi
@@ -77,7 +77,7 @@ services:
       retries: 10
 
   nginx:
-    image: serve/nginx:1.25.0
+    image: vllme/nginx
     build:
       context: .
       dockerfile: Dockerfile.nginx
