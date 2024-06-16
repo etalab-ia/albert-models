@@ -2,14 +2,11 @@ version: "3.8"
 
 services:
   vllm:
-    image: vllme/vllm
-    build:
-      context: .
-      dockerfile: Dockerfile.vllm
+    image: vllm/vllm-openai:latest
     command: --model $LLM_HF_REPO_ID $VLLM_ARGS
     environment:
       #- VLLM_API_KEY=${API_KEY}
-      - HF_TOKEN=${HF_TOKEN}
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
     volumes:
       - ${MODELS_CACHE_DIR:-"./models"}/${LLM_HF_REPO_ID}:/root/.cache/huggingface
     ipc: host
@@ -23,21 +20,13 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
-      interval: 60s
-      timeout: 5s
-      retries: 10
 
   tei:
-    image: vllme/tei
-    build:
-      context: .
-      dockerfile: Dockerfile.tei
+    image: ghcr.io/huggingface/text-embeddings-inference:latest
     command: --model-id $EMBEDDINGS_HF_REPO_ID $TEI_ARGS
     environment:
       #- API_KEY=${API_KEY}
-      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
     volumes:
       - ${MODELS_CACHE_DIR:-"./models"}/${EMBEDDINGS_HF_REPO_ID}:/data
     expose:
@@ -50,11 +39,6 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:80/health" ]
-      interval: 60s
-      timeout: 5s
-      retries: 10
 
   fastapi:
     image: vllme/fastapi
@@ -65,16 +49,6 @@ services:
     expose:
       - 8000
     restart: always
-    depends_on:
-      vllm:
-        condition: service_healthy
-      tei:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
-      interval: 2s
-      timeout: 5s
-      retries: 10
 
   nginx:
     image: vllme/nginx
@@ -83,10 +57,3 @@ services:
       dockerfile: Dockerfile.nginx
     ports:
       - 8080:8080
-    depends_on:
-      vllm:
-        condition: service_healthy
-      tei:
-        condition: service_healthy
-      fastapi:
-        condition: service_healthy

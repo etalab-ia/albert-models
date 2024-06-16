@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 from typing import List
 
-class ModelData(BaseModel):
+class Model(BaseModel):
     id: str
     object: str
     owned_by: str
     type: str
 
-class GetModels(BaseModel):
+class Models(BaseModel):
     object: str
-    data: List[ModelData]
+    data: List[Model]

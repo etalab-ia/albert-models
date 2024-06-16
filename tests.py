@@ -10,6 +10,8 @@ parser.add_argument("--host", type=str, default="localhost", help="Model host (d
 parser.add_argument("--debug", action="store_true", help="Print debug logs")  # fmt: off
 
 # @TODO: test with API key
+# @TODO: remove model args
+# @TODO: add openai package for the tests
 
 if __name__ == "__main__":
     args = parser.parse_args()

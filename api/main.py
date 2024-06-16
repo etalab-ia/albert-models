@@ -3,7 +3,7 @@ import requests
 from fastapi import FastAPI, Request
 from fastapi.responses import Response
 
-from schemas import GetModels
+from schemas import Models
 
 app = FastAPI(title="VLLMEmbeddings", version="0.0.1")
 
@@ -28,7 +28,7 @@ def health_check(request: Request) -> Response:
 
 
 @app.get("/v1/models")
-def get_models(request: GetModels) -> Response:  # @TODO: model response
+def get_models(request:Request) -> Models:  # @TODO: model response
     """
     Show available models
     """
