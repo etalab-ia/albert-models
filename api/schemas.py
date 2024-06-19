@@ -1,12 +1,13 @@
-from pydantic import BaseModel
-from typing import List
+from typing import List, Literal
 
-class Model(BaseModel):
-    id: str
-    object: str
-    owned_by: str
-    type: str
+from pydantic import BaseModel
+from openai.types import Model
+
+
+class CustomModel(Model):
+    type: Literal["text-generation", "text-embeddings-inference"]  # Huggingface tags
+
 
 class Models(BaseModel):
     object: str
-    data: List[Model]
+    data: List[CustomModel]

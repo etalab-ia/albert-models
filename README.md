@@ -6,7 +6,7 @@
 
 **Deploy a full OpenAI API with vLLM.**
 
-[vLLM](https://github.com/vllm-project/vllm) is one of the state of the art libraries for deploying a Large Language Model (LLM) and its API with better generation performance. However, vLLM does not currently support the generation of embeddings (endpoint: /v1/embeddings), although it can be used to deploy an API for LLM according to OpenAI conventions (see this [discussion](https://github.com/vllm-project/vllm/discussions/310)).
+[vLLM](https://github.com/vllm-project/vllm) is one of the state of the art libraries for deploying a Large Language Model (LLM) and its API with better generation performance. However, vLLM does not currently support all embeddings models for endpoint `/v1/embeddings`, although it can be used to deploy an API according to OpenAI conventions (see this [discussion](https://github.com/vllm-project/vllm/discussions/310)).
 
 This repository makes it easy to add the `/v1/embeddings` endpoint by deploying an embedding model with [HuggingFace Text Embeddings Inference (TEI)](https://github.com/huggingface/text-embeddings-inference) and serves it all on a single port. **The aim of this repository is to have a complete API that's very light, easy to use and maintain !**
 
@@ -43,9 +43,31 @@ And the HuggingFace Text Embeddings Inference API endpoints :
 *⚠️ You can't access of the vLLM and TEI API swaggers. The swagger UI of TEI is available at [official 
 documentation](https://huggingface.github.io/text-embeddings-inference/#/.).*
 
+## Models
+
+Currently, this architecture support almost all LLM and embeddings models. The return of the  `/v1/models` endpoint adds a new "type" key which takes the value "text-generation" or "text-embeddings-inference" depending on the nature of the model (language or embeddings). These values correspond to the label given to models on Huggingface. Example :
+
+```json
+{
+    "object": "list", 
+    "data": [
+        {
+            "model": < language model >,
+            "type": "text-generation",
+            ...
+        },
+        {
+            "model": < embeddings model >,
+            "type": "text-embeddings-inference",
+            ...
+        }
+    ]
+}
+```
+
 ## Installation
 
-* First, configure a *.env* file and modify *[.env.example](./.env.example)* file in this repository. For more informations about the configuration, please refer to the [configuration section](#configuration).
+* First, configure a *.env* file or modify the *[.env.example](./.env.example)* file in this repository. For more informations about the configuration, please refer to the [configuration section](#configuration).
   
 *  Then, run the containers with Docker compose :
 

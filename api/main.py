@@ -1,14 +1,17 @@
 import requests
+import time
 
 from fastapi import FastAPI, Request
 from fastapi.responses import Response
+from typing import Optional, Union
 
-from schemas import Models
+from schemas import CustomModel, Models
 
 app = FastAPI(title="VLLMEmbeddings", version="0.0.1")
 
-VLLM_URL=f"http://vllm:8000"
-TEI_URL=f"http://tei:80"
+VLLM_URL = f"http://vllm:8000"
+TEI_URL = f"http://tei:80"
+
 
 @app.get("/health")
 def health_check(request: Request) -> Response:
@@ -28,7 +31,7 @@ def health_check(request: Request) -> Response:
 
 
 @app.get("/v1/models")
-def get_models(request:Request) -> Models:  # @TODO: model response
+def get_models(request: Request, model: Optional[str] = None) -> Union[Models, CustomModel]:
     """
     Show available models
     """
@@ -43,13 +46,15 @@ def get_models(request:Request) -> Models:  # @TODO: model response
                 "id": vllm_model["data"][0]["id"],
                 "object": "model",
                 "owned_by": "vllm",
-                "type": "llm",
+                "created": vllm_model["data"][0]["created"],
+                "type": "text-generation",
             },
             {
                 "id": tei_model["model_id"],
                 "object": "model",
                 "owned_by": "tei",
-                "type": "embeddings",
+                "created": round(time.time()),
+                "type": "text-embeddings-inference",
             },
         ],
     }
