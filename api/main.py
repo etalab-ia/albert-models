@@ -1,7 +1,7 @@
 import requests
 import time
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import Response
 from typing import Optional, Union
 
@@ -39,24 +39,30 @@ def get_models(request: Request, model: Optional[str] = None) -> Union[Models, C
     vllm_model = requests.get(f"{VLLM_URL}/v1/models").json()
     tei_model = requests.get(f"{TEI_URL}/info").json()
 
-    response = {
-        "object": "list",
-        "data": [
-            {
-                "id": vllm_model["data"][0]["id"],
-                "object": "model",
-                "owned_by": "vllm",
-                "created": vllm_model["data"][0]["created"],
-                "type": "text-generation",
-            },
-            {
-                "id": tei_model["model_id"],
-                "object": "model",
-                "owned_by": "tei",
-                "created": round(time.time()),
-                "type": "text-embeddings-inference",
-            },
-        ],
+    vllm_model_data = {
+        "id": vllm_model["data"][0]["id"],
+        "object": "model",
+        "owned_by": "vllm",
+        "created": vllm_model["data"][0]["created"],
+        "type": "text-generation",
     }
+    tei_model_data = {
+        "id": tei_model["model_id"],
+        "object": "model",
+        "owned_by": "tei",
+        "created": round(time.time()),
+        "type": "text-embeddings-inference",
+    }
+    
+    if model is not None:
+        if model not in [vllm_model_data["id"], tei_model_data["id"]]:
+            raise HTTPException(status_code=404, detail="Model not found")
+
+        if model == vllm_model_data["id"]:
+            return vllm_model_data
+        else:
+            return tei_model_data
+
+    response = {"object": "list", "data": [vllm_model_data, tei_model_data]}
 
     return response
