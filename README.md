@@ -1,10 +1,13 @@
 # vLLM + embeddings
+### Deploy a full OpenAI API with vLLM that supports all embedding models
+
+![](https://img.shields.io/badge/python-3.12-green) ![](https://img.shields.io/badge/vLLM-latest-blue) ![](https://img.shields.io/badge/HuggingFace%20Text%20Embeddings%20Inference-latest-red)
 
 *🔥 News :* 
-- add HF_TOKEN variable for private model on HuggingFace
+- upgrade python version to 3.12
+- add HUGGING_FACE_HUB_TOKEN variable for private model on HuggingFace
 - new architecture for more flexiblity !
-
-**Deploy a full OpenAI API with vLLM.**
+---
 
 [vLLM](https://github.com/vllm-project/vllm) is one of the state of the art libraries for deploying a Large Language Model (LLM) and its API with better generation performance. However, vLLM does not currently support all embeddings models for endpoint `/v1/embeddings`, although it can be used to deploy an API according to OpenAI conventions (see this [discussion](https://github.com/vllm-project/vllm/discussions/310)).
 

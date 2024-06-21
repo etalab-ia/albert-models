@@ -7,10 +7,10 @@ from typing import Optional, Union
 
 from schemas import CustomModel, Models
 
-app = FastAPI(title="VLLMEmbeddings", version="0.0.1")
+app = FastAPI(title="vLLMembeddings", version="1.0.1")
 
-VLLM_URL = f"http://vllm:8000"
-TEI_URL = f"http://tei:80"
+VLLM_URL = "http://vllm:8000"
+TEI_URL = "http://tei:80"
 
 
 @app.get("/health")
@@ -35,7 +35,6 @@ def get_models(request: Request, model: Optional[str] = None) -> Union[Models, C
     """
     Show available models
     """
-
     vllm_model = requests.get(f"{VLLM_URL}/v1/models").json()
     tei_model = requests.get(f"{TEI_URL}/info").json()
 
