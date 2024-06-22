@@ -1,4 +1,5 @@
 import requests
+import urllib
 import time
 
 from fastapi import FastAPI, Request, HTTPException
@@ -7,7 +8,7 @@ from typing import Optional, Union
 
 from schemas import CustomModel, Models
 
-app = FastAPI(title="vLLMembeddings", version="1.0.1")
+app = FastAPI(title="vLLM embeddings", version="1.0.0")
 
 VLLM_URL = "http://vllm:8000"
 TEI_URL = "http://tei:80"
@@ -29,7 +30,7 @@ def health_check(request: Request) -> Response:
     else:
         return Response(status_code=500)
 
-
+@app.get("/v1/models/{model}")
 @app.get("/v1/models")
 def get_models(request: Request, model: Optional[str] = None) -> Union[Models, CustomModel]:
     """
@@ -54,6 +55,7 @@ def get_models(request: Request, model: Optional[str] = None) -> Union[Models, C
     }
     
     if model is not None:
+        model = urllib.parse.unquote(model)
         if model not in [vllm_model_data["id"], tei_model_data["id"]]:
             raise HTTPException(status_code=404, detail="Model not found")
 
