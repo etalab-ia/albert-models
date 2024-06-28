@@ -1,21 +1,41 @@
 import requests
 import urllib
 import time
+import os
+from typing import Optional, Union, Annotated
 
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Security, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import Response
-from typing import Optional, Union
 
 from schemas import CustomModel, Models
 
 app = FastAPI(title="vLLM embeddings", version="1.0.0")
 
+
 VLLM_URL = "http://vllm:8000"
 TEI_URL = "http://tei:80"
 
 
+# auth
+auth_scheme = HTTPBearer(scheme_name="API key")
+API_KEY = os.getenv("API_KEY")
+if API_KEY is None:
+
+    def check_api_key():
+        pass
+
+else:
+
+    def check_api_key(api_key: Annotated[HTTPAuthorizationCredentials, Depends(auth_scheme)]):
+        if api_key.scheme != "Bearer":
+            raise HTTPException(status_code=403, detail="Invalid authentication scheme")
+        if api_key.credentials != API_KEY:
+            raise HTTPException(status_code=403, detail="Invalid API key")
+
+
 @app.get("/health")
-def health_check(request: Request) -> Response:
+def health_check(request: Request, api_key: str = Security(check_api_key)) -> Response:
     """
     Health check of vLLM model and TEI embeddings.
     """
@@ -30,9 +50,12 @@ def health_check(request: Request) -> Response:
     else:
         return Response(status_code=500)
 
+
 @app.get("/v1/models/{model}")
 @app.get("/v1/models")
-def get_models(request: Request, model: Optional[str] = None) -> Union[Models, CustomModel]:
+def get_models(
+    request: Request, model: Optional[str] = None, api_key: str = Security(check_api_key)
+) -> Union[Models, CustomModel]:
     """
     Show available models
     """
@@ -53,9 +76,10 @@ def get_models(request: Request, model: Optional[str] = None) -> Union[Models, C
         "created": round(time.time()),
         "type": "text-embeddings-inference",
     }
-    
+
     if model is not None:
-        model = urllib.parse.unquote(model)
+        # support double encoding for model ID with "/" character
+        model = urllib.parse.unquote(urllib.parse.unquote(model))
         if model not in [vllm_model_data["id"], tei_model_data["id"]]:
             raise HTTPException(status_code=404, detail="Model not found")
 
