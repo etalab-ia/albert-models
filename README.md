@@ -96,7 +96,7 @@ You can use the deployed API with Langchain to create embedding vectors for your
 ```python
 from langchain_community.embeddings import HuggingFaceHubEmbeddings
 
-embeddings = HuggingFaceHubEmbeddings(model=f"http://localhost:8080/tei")
+embeddings = HuggingFaceHubEmbeddings(model=f"http://localhost:8080/tei/")
 ```
 
 ## 🔦 Tests 

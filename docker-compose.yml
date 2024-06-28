@@ -45,7 +45,9 @@ services:
     build:
       context: ./fastapi
       dockerfile: Dockerfile
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --browser.gatherUsageStats false
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    environment:
+      - API_KEY=${API_KEY}
     expose:
       - 8000
     restart: always
