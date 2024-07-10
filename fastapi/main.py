@@ -8,9 +8,11 @@ from fastapi import FastAPI, Request, HTTPException, Security, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import Response
 
+from routers.tei import router as TeiRouter
+from routers.vllm import router as VllmRouter
 from schemas import CustomModel, Models, FreeFormJSON
-app = FastAPI(title="vLLM embeddings", version="1.0.0")
 
+app = FastAPI(title="vLLM embeddings", version="1.0.2")
 
 VLLM_URL = "http://vllm:8000"
 TEI_URL = "http://tei:80"
@@ -32,7 +34,7 @@ else:
             raise HTTPException(status_code=403, detail="Invalid authentication scheme")
         if api_key.credentials != API_KEY:
             raise HTTPException(status_code=403, detail="Invalid API key")
-        
+
         return api_key.credentials
 
 
@@ -53,10 +55,11 @@ def health_check(request: Request, api_key: str = Security(check_api_key)) -> Re
         return Response(status_code=500)
 
 
-@app.get("/v1/models/{model}")
-@app.get("/v1/models")
+@app.get("/v1/models/{model}", tags=["OpenAI"])
+@app.get("/v1/models", tags=["OpenAI"])
 def get_models(
-    request: Request, model: Optional[str] = None, api_key: str = Security(check_api_key)) -> Union[Models, CustomModel]:
+    request: Request, model: Optional[str] = None, api_key: str = Security(check_api_key)
+) -> Union[Models, CustomModel]:
     """
     Show available models
     """
@@ -94,15 +97,21 @@ def get_models(
 
     return response
 
-@app.post("/v1/embeddings")
-def embeddings(request: FreeFormJSON):
-    pass 
 
-@app.post("/v1/completions")
+@app.post("/v1/embeddings", tags=["OpenAI"])
+def embeddings(request: FreeFormJSON):
+    pass
+
+
+@app.post("/v1/completions", tags=["OpenAI"])
 def completions(request: FreeFormJSON):
     pass
 
-@app.post("/v1/chat/completions")
+
+@app.post("/v1/chat/completions", tags=["OpenAI"])
 def chat_completions(request: FreeFormJSON):
     pass
 
+# routers
+app.include_router(VllmRouter)
+app.include_router(TeiRouter)

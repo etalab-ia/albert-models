@@ -10,9 +10,6 @@
 - [2024-07-10] use directly base url /v1 for Langchain integration
 - [2024-07-10] remove max body client for large text
 - [2024-07-10] write a tests.py script for test your deployment
-- [2024-06-22] upgrade python version to 3.12
-- [2024-06-22] add HUGGING_FACE_HUB_TOKEN variable for private model on HuggingFace
-- [2024-06-22] new architecture for more flexiblity !
 
 *Incoming :*
 - Use PyTest for unit test (tests.py file)
@@ -28,13 +25,17 @@ This repository makes it easy to add the `/v1/embeddings` endpoint by deploying 
 * vLLM endpoints : `/vllm`
 * Text Embeddings Inference endpoints : `/tei`
 
-<p align="center">
-    <img src="/assets/swagger.png" width=70% height=70%>
-</p>
-
 ## How it works ?
 
-![](./assets/vllmembeddings.png)
+<p align="center">
+    <img src="./assets/vllmembeddings.png" >
+</p>
+
+## The swagger
+
+<p align="center">
+    <img src="/assets/swagger.png" width=80% height=80%>
+</p>
 
 ## Models
 
@@ -57,6 +58,9 @@ Currently, this architecture support almost all LLM and embeddings models. The r
     ]
 }
 ```
+
+
+
 
 ## Installation
 
