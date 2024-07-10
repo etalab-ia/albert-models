@@ -96,11 +96,11 @@ You can use the deployed API with Langchain to create embedding vectors for your
 ```python
 from langchain_community.embeddings import HuggingFaceHubEmbeddings
 
-embeddings = HuggingFaceHubEmbeddings(model=f"http://localhost:8080/tei/")
+embeddings = HuggingFaceHubEmbeddings(model="http://localhost:8080/v1")
 ```
 
 ## 🔦 Tests 
 
 ```bash
-python tests.py --llm-hf-repo-id TheBloke/OpenHermes-2.5-Mistral-7B-GPTQ --embeddings-hf-repo-id intfloat/e5-small --debug
+python tests.py --debug
 ```

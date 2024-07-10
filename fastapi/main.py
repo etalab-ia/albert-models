@@ -8,8 +8,7 @@ from fastapi import FastAPI, Request, HTTPException, Security, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import Response
 
-from schemas import CustomModel, Models
-
+from schemas import CustomModel, Models, FreeFormJSON
 app = FastAPI(title="vLLM embeddings", version="1.0.0")
 
 
@@ -20,7 +19,8 @@ TEI_URL = "http://tei:80"
 # auth
 auth_scheme = HTTPBearer(scheme_name="API key")
 API_KEY = os.getenv("API_KEY")
-if API_KEY is None:
+
+if not API_KEY:
 
     def check_api_key():
         pass
@@ -32,6 +32,8 @@ else:
             raise HTTPException(status_code=403, detail="Invalid authentication scheme")
         if api_key.credentials != API_KEY:
             raise HTTPException(status_code=403, detail="Invalid API key")
+        
+        return api_key.credentials
 
 
 @app.get("/health")
@@ -54,13 +56,13 @@ def health_check(request: Request, api_key: str = Security(check_api_key)) -> Re
 @app.get("/v1/models/{model}")
 @app.get("/v1/models")
 def get_models(
-    request: Request, model: Optional[str] = None, api_key: str = Security(check_api_key)
-) -> Union[Models, CustomModel]:
+    request: Request, model: Optional[str] = None, api_key: str = Security(check_api_key)) -> Union[Models, CustomModel]:
     """
     Show available models
     """
-    vllm_model = requests.get(f"{VLLM_URL}/v1/models").json()
-    tei_model = requests.get(f"{TEI_URL}/info").json()
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else None
+    vllm_model = requests.get(f"{VLLM_URL}/v1/models", headers=headers).json()
+    tei_model = requests.get(f"{TEI_URL}/info", headers=headers).json()
 
     vllm_model_data = {
         "id": vllm_model["data"][0]["id"],
@@ -91,3 +93,16 @@ def get_models(
     response = {"object": "list", "data": [vllm_model_data, tei_model_data]}
 
     return response
+
+@app.post("/v1/embeddings")
+def embeddings(request: FreeFormJSON):
+    pass 
+
+@app.post("/v1/completions")
+def completions(request: FreeFormJSON):
+    pass
+
+@app.post("/v1/chat/completions")
+def chat_completions(request: FreeFormJSON):
+    pass
+
