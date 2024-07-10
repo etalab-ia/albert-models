@@ -4,47 +4,37 @@
 ![](https://img.shields.io/badge/python-3.12-green) ![](https://img.shields.io/badge/vLLM-latest-blue) ![](https://img.shields.io/badge/HuggingFace%20Text%20Embeddings%20Inference-latest-red)
 
 *🔥 News :* 
-- upgrade python version to 3.12
-- add HUGGING_FACE_HUB_TOKEN variable for private model on HuggingFace
-- new architecture for more flexiblity !
+
+- [2024-07-10] add API swagger for test all endpoints
+- [2024-07-10] support API_KEY for protect your model API
+- [2024-07-10] use directly base url /v1 for Langchain integration
+- [2024-07-10] remove max body client for large text
+- [2024-07-10] write a tests.py script for test your deployment
+- [2024-06-22] upgrade python version to 3.12
+- [2024-06-22] add HUGGING_FACE_HUB_TOKEN variable for private model on HuggingFace
+- [2024-06-22] new architecture for more flexiblity !
+
+*Incoming :*
+- Use PyTest for unit test (tests.py file)
 ---
 
 [vLLM](https://github.com/vllm-project/vllm) is one of the state of the art libraries for deploying a Large Language Model (LLM) and its API with better generation performance. However, vLLM does not currently support all embeddings models for endpoint `/v1/embeddings`, although it can be used to deploy an API according to OpenAI conventions (see this [discussion](https://github.com/vllm-project/vllm/discussions/310)).
 
 This repository makes it easy to add the `/v1/embeddings` endpoint by deploying an embedding model with [HuggingFace Text Embeddings Inference (TEI)](https://github.com/huggingface/text-embeddings-inference) and serves it all on a single port. **The aim of this repository is to have a complete API that's very light, easy to use and maintain !**
 
+**API offer the following OpenAI endpoints:**
+
+* OpenAI endpoints : `/v1`
+* vLLM endpoints : `/vllm`
+* Text Embeddings Inference endpoints : `/tei`
+
+<p align="center">
+    <img src="/assets/swagger.png" width=70% height=70%>
+</p>
+
 ## How it works ?
 
 ![](./assets/vllmembeddings.png)
-
-**API offer the following OpenAI endpoints:**
-- `/health`
-- `/v1/models`
-- `/v1/chat/completions`
-- `/v1/completions`
-- `/v1/embeddings`
-
-You can access the other vLLM API endpoints:
-
-- `/vllm/health`
-- `/vllm/version`
-
-And the HuggingFace Text Embeddings Inference API endpoints :
-- `/tei/decode`
-- `/tei/embed`
-- `/tei/health`
-- `/tei/embed_app`
-- `/tei/embed_sparse`
-- `/tei/embeddings`
-- `/tei/info`
-- `/tei/metrics`
-- `/tei/predict`
-- `/tei/rerank`
-- `/tei/tokenize`
-- `/tei/vertex`
-
-*⚠️ You can't access of the vLLM and TEI API swaggers. The swagger UI of TEI is available at [official 
-documentation](https://huggingface.github.io/text-embeddings-inference/#/.).*
 
 ## Models
 
