@@ -1,7 +1,8 @@
-# vLLM + embeddings
-### Deploy a full OpenAI API with vLLM that supports all embedding models
+# Albert models
 
 ![](https://img.shields.io/badge/python-3.12-green) ![](https://img.shields.io/badge/vLLM-latest-blue) ![](https://img.shields.io/badge/HuggingFace%20Text%20Embeddings%20Inference-latest-red)
+
+### Deploy a full OpenAI API with vLLM that supports all embedding models
 
 *🔥 News :* 
 
@@ -20,24 +21,24 @@
 This repository makes it easy to add the `/v1/embeddings` endpoint by deploying an embedding model with [HuggingFace Text Embeddings Inference (TEI)](https://github.com/huggingface/text-embeddings-inference) and serves it all on a single port. **The aim of this repository is to have a complete API that's very light, easy to use and maintain !**
 
 **API offer the following OpenAI endpoints:**
+*  `/v1/models`
+*  `/v1/completions`
+*  `/v1/chat/completions`
+*  `/v1/embeddings`
 
-* OpenAI endpoints : `/v1`
-* vLLM endpoints : `/vllm`
-* Text Embeddings Inference endpoints : `/tei`
-
-## How it works ?
+## ⚙️ How it works ?
 
 <p align="center">
     <img src="./assets/vllmembeddings.png" >
 </p>
 
-## The swagger
+## 🍿 The swagger
 
 <p align="center">
     <img src="/assets/swagger.png" width=80% height=80%>
 </p>
 
-## Models
+## 📦 Models
 
 Currently, this architecture support almost all LLM and embeddings models. The return of the  `/v1/models` endpoint adds a new "type" key which takes the value "text-generation" or "text-embeddings-inference" depending on the nature of the model (language or embeddings). These values correspond to the label given to models on Huggingface. Example :
 
@@ -59,7 +60,7 @@ Currently, this architecture support almost all LLM and embeddings models. The r
 }
 ```
 
-## Installation
+## 🚀 Quickstart
 
 * First, configure a *.env* file or modify the *[.env.example](./.env.example)* file in this repository. For more informations about the configuration, please refer to the [configuration section](#configuration).
   
@@ -69,7 +70,7 @@ Currently, this architecture support almost all LLM and embeddings models. The r
     docker compose --env-file env.example up --detach
     ```
 
-## Configuration
+## 🔧 Configuration
 
 | variable | values |
 | --- | --- |
