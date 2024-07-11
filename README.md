@@ -59,9 +59,6 @@ Currently, this architecture support almost all LLM and embeddings models. The r
 }
 ```
 
-
-
-
 ## Installation
 
 * First, configure a *.env* file or modify the *[.env.example](./.env.example)* file in this repository. For more informations about the configuration, please refer to the [configuration section](#configuration).
@@ -80,8 +77,8 @@ Currently, this architecture support almost all LLM and embeddings models. The r
 | LLM_HF_REPO_ID | HuggingFace repository ID of the LLM model. Please refer to [vLLM](https://github.com/vllm-project/vllm) documentation to find supported models. |
 | TEI_ARGS | Arguments for Text Embeddings Inference (format: --arg1 <value> --arg2 <value>). Please refer to [HuggingFace Text Embeddings Inference](https://github.com/huggingface/text-embeddings-inference) documentation for more information. |
 | VLLM_ARGS | Arguments for vLLM (format: --arg1 <value> --arg2 <value>). Please refer to [vLLM](https://github.com/vllm-project/vllm) documentation for more information. |
-| HUGGING_FACE_HUB_TOKEN | HuggingFace API token for private model on HuggingFace Hub. |
-| API_KEY | API key for protect your model. |
+| HF_TOKEN | HuggingFace API token for private model on HuggingFace Hub (optional). |
+| API_KEY | API key for protect your model (optional). |
 
 ## 🦜 Lanchain integration
 

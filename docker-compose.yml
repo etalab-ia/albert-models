@@ -6,7 +6,7 @@ services:
     command: --model $LLM_HF_REPO_ID $VLLM_ARGS
     environment:
       - VLLM_API_KEY=${API_KEY}
-      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
+      - HF_TOKEN=${HF_TOKEN}
     volumes:
       - ${MODELS_CACHE_DIR:-"./models"}/${LLM_HF_REPO_ID}:/root/.cache/huggingface
     ipc: host
@@ -26,7 +26,7 @@ services:
     command: --model-id $EMBEDDINGS_HF_REPO_ID $TEI_ARGS
     environment:
       - API_KEY=${API_KEY}
-      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
     volumes:
       - ${MODELS_CACHE_DIR:-"./models"}/${EMBEDDINGS_HF_REPO_ID}:/data
     expose:
@@ -41,10 +41,7 @@ services:
               capabilities: [gpu]
 
   fastapi:
-    image: vllme/fastapi
-    build:
-      context: ./fastapi
-      dockerfile: Dockerfile
+    image: ghcr.io/etalab-ia/albert-models/fastapi:latest
     command: uvicorn main:app --host 0.0.0.0 --port 8000
     environment:
       - API_KEY=${API_KEY}
@@ -53,10 +50,7 @@ services:
     restart: always
 
   nginx:
-    image: vllme/nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
+    image: ghcr.io/etalab-ia/albert-models/nginx:latest
     ports:
       - 8080:8080
     restart: always
