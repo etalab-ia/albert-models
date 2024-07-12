@@ -7,6 +7,7 @@ services:
     environment:
       - VLLM_API_KEY=${API_KEY}
       - HF_TOKEN=${HF_TOKEN}
+    env_file: .env
     volumes:
       - ${MODELS_CACHE_DIR:-"./models"}/${LLM_HF_REPO_ID}:/root/.cache/huggingface
     ipc: host

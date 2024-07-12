@@ -6,11 +6,10 @@
 
 *🔥 News :* 
 
+- [2024-07-11] add .env in docker compose to add VLLM additional variable environments
 - [2024-07-10] add API swagger for test all endpoints
 - [2024-07-10] support API_KEY for protect your model API
 - [2024-07-10] use directly base url /v1 for Langchain integration
-- [2024-07-10] remove max body client for large text
-- [2024-07-10] write a tests.py script for test your deployment
 
 *Incoming :*
 - Use PyTest for unit test (tests.py file)
@@ -72,6 +71,8 @@ Currently, this architecture support almost all LLM and embeddings models. The r
 
 ## 🔧 Configuration
 
+For additional variables of VLLM (see https://docs.vllm.ai/en/stable/serving/env_vars.html), add them in the `.env` file.
+
 | variable | values |
 | --- | --- |
 | EMBEDDINGS_HF_REPO_ID | HuggingFace repository ID of the embeddings model. Please refer to [HuggingFace Text Embeddings Inference](https://github.com/huggingface/text-embeddings-inference) documentation to find supported models. | 
@@ -93,6 +94,10 @@ embeddings = HuggingFaceHubEmbeddings(model="http://localhost:8080/v1")
 
 ## 🔦 Tests 
 
+To test if your deployment is up, you can use the following command:
+
 ```bash
-python tests.py --debug
+python tests.py --base-url http://localhost:8080 --api-key mysecretkey --debug
 ```
+
+> ⚠️ The vllm container may take several minutes to run, particularly if it has to download the model. 
