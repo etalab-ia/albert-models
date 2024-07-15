@@ -1,6 +1,6 @@
 # Albert models
 
-![](https://img.shields.io/badge/python-3.12-green) ![](https://img.shields.io/badge/vLLM-latest-blue) ![](https://img.shields.io/badge/HuggingFace%20Text%20Embeddings%20Inference-latest-red)
+![](https://img.shields.io/badge/python-3.12-green) ![](https://img.shields.io/badge/vLLM-v0.5.1-blue) ![](https://img.shields.io/badge/HuggingFace%20Text%20Embeddings%20Inference-1.5-red)
 
 ### Deploy a full OpenAI API with vLLM that supports all embedding models
 

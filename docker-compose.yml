@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   vllm:
-    image: vllm/vllm-openai:latest
+    image: vllm/vllm-openai:v0.5.1
     command: --model $LLM_HF_REPO_ID $VLLM_ARGS
     environment:
       - VLLM_API_KEY=${API_KEY}
@@ -23,11 +23,11 @@ services:
               capabilities: [gpu]
 
   tei:
-    image: ghcr.io/huggingface/text-embeddings-inference:latest
+    image: ghcr.io/huggingface/text-embeddings-inference:1.5
     command: --model-id $EMBEDDINGS_HF_REPO_ID $TEI_ARGS
     environment:
-      - API_KEY=${API_KEY}
       - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
+    env_file: .env
     volumes:
       - ${MODELS_CACHE_DIR:-"./models"}/${EMBEDDINGS_HF_REPO_ID}:/data
     expose:
