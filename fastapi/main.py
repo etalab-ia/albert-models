@@ -12,7 +12,7 @@ from routers.tei import router as TeiRouter
 from routers.vllm import router as VllmRouter
 from schemas import CustomModel, Models, FreeFormJSON
 
-app = FastAPI(title="vLLM embeddings", version="1.0.2")
+app = FastAPI(title="Albert models", version="1.0.2")
 
 VLLM_URL = "http://vllm:8000"
 TEI_URL = "http://tei:80"
